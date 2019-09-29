@@ -227,6 +227,10 @@ void adreno_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit,
 		struct msm_file_private *ctx);
 void adreno_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring);
 bool adreno_idle(struct msm_gpu *gpu, struct msm_ringbuffer *ring);
+#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
+void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
+		struct drm_printer *p);
+#endif
 void adreno_dump_info(struct msm_gpu *gpu);
 void adreno_dump(struct msm_gpu *gpu);
 void adreno_wait_ring(struct msm_ringbuffer *ring, uint32_t ndwords);
