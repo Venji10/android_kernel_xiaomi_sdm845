@@ -75,6 +75,7 @@ static struct msm_ringbuffer *get_next_ring(struct msm_gpu *gpu)
 
 static void a5xx_preempt_timer(struct timer_list *t)
 {
+	struct timer_list preempt_timer;
 	struct a5xx_gpu *a5xx_gpu = from_timer(a5xx_gpu, t, preempt_state);
 	struct msm_gpu *gpu = &a5xx_gpu->base.base;
 	struct drm_device *dev = gpu->dev;
