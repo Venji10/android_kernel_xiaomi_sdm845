@@ -220,10 +220,6 @@ struct drm_hdmi_info {
  * @DRM_LINK_STATUS_BAD: DP Link is BAD as a result of link training
  *                       failure
  */
-enum drm_link_status {
-	DRM_LINK_STATUS_GOOD = DRM_MODE_LINK_STATUS_GOOD,
-	DRM_LINK_STATUS_BAD = DRM_MODE_LINK_STATUS_BAD,
-};
 
 /**
  * enum drm_panel_orientation - panel_orientation info for &drm_display_info
@@ -556,7 +552,6 @@ struct drm_connector_state {
 	 * @link_status: Connector link_status to keep track of whether link is
 	 * GOOD or BAD to notify userspace if retraining is necessary.
 	 */
-	enum drm_link_status link_status;
 
 	/** @state: backpointer to global drm_atomic_state */
 	struct drm_atomic_state *state;
