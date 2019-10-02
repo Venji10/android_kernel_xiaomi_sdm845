@@ -692,6 +692,60 @@ static void adreno_show_object(struct drm_printer *p, void **ptr, int len,
 	drm_puts(p, "\n");
 }
 
+void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
+		struct drm_printer *p)
+{
+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+	int i;
+
+	if (IS_ERR_OR_NULL(state))
+		return;
+
+	drm_printf(p, "revision: %d (%d.%d.%d.%d)\n",
+			adreno_gpu->info->revn, adreno_gpu->rev.core,
+			adreno_gpu->rev.major, adreno_gpu->rev.minor,
+			adreno_gpu->rev.patchid);
+
+	drm_printf(p, "rbbm-status: 0x%08x\n", state->rbbm_status);
+
+	drm_puts(p, "ringbuffer:\n");
+
+	for (i = 0; i < gpu->nr_rings; i++) {
+		drm_printf(p, "  - id: %d\n", i);
+		drm_printf(p, "    iova: 0x%016llx\n", state->ring[i].iova);
+		drm_printf(p, "    last-fence: %d\n", state->ring[i].seqno);
+		drm_printf(p, "    retired-fence: %d\n", state->ring[i].fence);
+		drm_printf(p, "    rptr: %d\n", state->ring[i].rptr);
+		drm_printf(p, "    wptr: %d\n", state->ring[i].wptr);
+		drm_printf(p, "    size: %d\n", MSM_GPU_RINGBUFFER_SZ);
+
+		adreno_show_object(p, &state->ring[i].data,
+			state->ring[i].data_size, &state->ring[i].encoded);
+	}
+
+	if (state->bos) {
+		drm_puts(p, "bos:\n");
+
+		for (i = 0; i < state->nr_bos; i++) {
+			drm_printf(p, "  - iova: 0x%016llx\n",
+				state->bos[i].iova);
+			drm_printf(p, "    size: %zd\n", state->bos[i].size);
+
+			adreno_show_object(p, &state->bos[i].data,
+				state->bos[i].size, &state->bos[i].encoded);
+		}
+	}
+
+	if (state->nr_registers) {
+		drm_puts(p, "registers:\n");
+
+		for (i = 0; i < state->nr_registers; i++) {
+			drm_printf(p, "  - { offset: 0x%04x, value: 0x%08x }\n",
+				state->registers[i * 2] << 2,
+				state->registers[(i * 2) + 1]);
+		}
+	}
+}
 #endif
 
 /* Dump common gpu status and scratch registers on any hang, to make

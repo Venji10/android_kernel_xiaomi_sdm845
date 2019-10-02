@@ -9,6 +9,9 @@ msm-y := \
 	adreno/a2xx_gpu.o \
 	adreno/a3xx_gpu.o \
 	adreno/a4xx_gpu.o \
+	adreno/a5xx_gpu.o \
+	adreno/a5xx_power.o \
+	adreno/a5xx_preempt.o \
 	adreno/a6xx_gpu.o \
 	adreno/a6xx_gmu.o \
 	adreno/a6xx_hfi.o \
