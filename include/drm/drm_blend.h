@@ -37,7 +37,7 @@ struct drm_plane;
 
 static inline bool drm_rotation_90_or_270(unsigned int rotation)
 {
-	return rotation & (DRM_MODE_ROTATE_90);
+	return rotation & (DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270);
 }
 
 #define DRM_BLEND_ALPHA_OPAQUE		0xffff
